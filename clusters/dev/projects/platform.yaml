@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-20"
+spec:
+  description: Briques transverses du cluster
+  sourceRepos:
+    - https://github.com/kim-tsr/fiduce-gitops.git
+    - https://argoproj.github.io/argo-helm
+    - https://bitnami-labs.github.io/sealed-secrets
+    - https://charts.longhorn.io
+    - https://kyverno.github.io/kyverno
+    - https://cloudnative-pg.github.io/charts
+
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: "*"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  orphanedResources:
+    warn: true

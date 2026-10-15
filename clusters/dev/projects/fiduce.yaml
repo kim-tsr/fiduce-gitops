@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: fiduce
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-20"
+spec:
+  description: Application Fiduce
+  sourceRepos:
+    - https://github.com/kim-tsr/fiduce-gitops.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: fiduce
+  clusterResourceWhitelist: []
+
+  namespaceResourceBlacklist:
+    - group: networking.k8s.io
+      kind: NetworkPolicy
+    - group: ""
+      kind: ResourceQuota
+    - group: ""
+      kind: LimitRange
